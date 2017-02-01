@@ -54,7 +54,7 @@ transl1 = translationMatrix(10,'z')
 print transl1
 transl2 = translationMatrix(20,'x')
 print transl2
-rot2 = rotationMatrix(pi/2,'x')
+rot2 = rotationMatrix(0,'x')
 print rot2
 z_ax = numpy.dot(rot1,transl1)
 x_ax = numpy.dot(transl2,rot2)
