@@ -8,24 +8,29 @@ pi = numpy.pi
 
 
 def dhTransform(theta,d,a,alpha):
-	T = numpy.dot(numpy.dot(rotationMatrix(theta,'z'),translationMatrix(d,'z')),numpy.dot(translationMatrix(a,'x'),rotationMatrix(alpha,'x')))
 
+	T = numpy.dot(numpy.dot(rotationMatrix(theta,'z'),translationMatrix(d,'z')),numpy.dot(translationMatrix(a,'x'),rotationMatrix(alpha,'x')))
+	for r in range (0,4):
+		for c in range (0,4):
+			if abs(T[r,c]) < 1e-4:
+				T[r,c] = 0
+				
 	return T
 
 
 def translationMatrix(d,t_ax):
 	
 	if t_ax == 'x':
-		T = numpy.array([[0,0,0,d],[0,0,0,0],[0,0,0,0],[0,0,0,1]])
+		T = numpy.array([[1,0,0,d],[0,1,0,0],[0,0,1,0],[0,0,0,1]])
 
 	elif t_ax == 'y':
-		T = numpy.array([[0,0,0,0],[0,0,0,d],[0,0,0,0],[0,0,0,1]])
+		T = numpy.array([[1,0,0,0],[0,1,0,d],[0,0,1,0],[0,0,0,1]])
 
 	elif t_ax == 'z':
-		T = numpy.array([[0,0,0,0],[0,0,0,0],[0,0,0,d],[0,0,0,1]])
+		T = numpy.array([[1,0,0,0],[0,1,0,0],[0,0,1,d],[0,0,0,1]])
 
 	elif t_ax == 'all':
-		T = numpy.array([[0,0,0,d],[0,0,0,d],[0,0,0,d],[0,0,0,1]])	
+		T = numpy.array([[1,0,0,d],[0,1,0,d],[0,0,1,d],[0,0,0,1]])	
 
 	else:
 		print('invalid axis')
@@ -48,18 +53,11 @@ def rotationMatrix(theta,r_ax):
 		
 	return R
 
-rot1 = rotationMatrix(pi/6,'z')
-print rot1
-transl1 = translationMatrix(10,'z')
-print transl1
-transl2 = translationMatrix(20,'x')
-print transl2
-rot2 = rotationMatrix(pi/2,'x')
-print rot2
-z_ax = numpy.dot(rot1,transl1)
-x_ax = numpy.dot(transl2,rot2)
-print z_ax
-print x_ax
+#theta = pi/6
+#d = 2
+#a = 3
+#alpha = 0
 
-#dh_trans = dhTransform(pi/2,24,10,pi/3)
-#print dh_trans
+#dh_test = dhTransform(theta,d,a,alpha)
+#print dh_test
+#print dh_test[1,1]
