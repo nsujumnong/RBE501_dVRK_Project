@@ -9,6 +9,8 @@ from sympy import *
 
 pi = math.pi
 
+#**** Incomplete code: Work in progress
+
 #def jacobian(f,v):
 #	n = len(f)
 #	m = len(v)
