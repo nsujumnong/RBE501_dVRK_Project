@@ -52,6 +52,8 @@ def forwardKinematics(i,dh_table):
 
 table_ith = forwardKinematics(1,dh_table)
 print table_ith
+p = table_ith[0:3,3]
+print p
 
 def forwardPositionKinematics(i,dh_table,cm):
 #compute the position of the center of mass of ith link
@@ -71,5 +73,5 @@ def forwardPositionKinematics(i,dh_table,cm):
 	ith_T_cm = numpy.dot(T,cm_transl)	
 	return ith_T_cm
 	
-table_cm_ith = forwardPositionKinematics(2,dh_table,cm)
-print table_cm_ith
+#table_cm_ith = forwardPositionKinematics(2,dh_table,cm)
+#print table_cm_ith

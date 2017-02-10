@@ -3,19 +3,32 @@
 import numpy as np
 import sympy
 import scipy
+import numdifftools as nd
 
 from numpy import *
 from sympy import *
+from numdifftools import *
 
 pi = math.pi
 
 #**** Incomplete code: Work in progress
 
-#def jacobian(f,v):
-#	n = len(f)
-#	m = len(v)
-#	for i in range (0,n):
-#		for j in range
+
+
+def jacobian(f,v):
+	n = len(f)
+	m = len(v)
+	if isinstance(v,list) == True:
+		j_v = np.zeros((3,n))		
+		for i in range (0,n):
+			for j in range (0,m):
+				j_v[]
+	
+	else:
+		j_v = np.zeros((3,n))
+		for i in range (0,n):
+			j_v[i] = diff(f,v) 
+				
 	
 	
 

@@ -9,11 +9,24 @@ from sympy import *
 
 pi = math.pi
 
-#def jacobian(f,v):
-#	n = len(f)
-#	m = len(v)
-#	for i in range (0,n):
-#		for j in range
+#**** Incomplete code: Work in progress
+
+
+
+def jacobian(f,v):
+	n = len(f)
+	m = len(v)
+	if isinstance(v,list) == True:
+		j_v = np.zeros((3,n))		
+		for i in range (0,n):
+			for j in range (0,m):
+				j_v[]
+	
+	else:
+		j_v = np.zeros((3,n))
+		for i in range (0,n):
+			j_v[i] = diff(f,v) 
+				
 	
 	
 
@@ -33,4 +46,4 @@ f = 4*x*y + x*sin(z) + x**3 + z**8*y
 
 sin_pi = sin(pi/2*x)
 d_sin = diff(sin_pi,x)
-print sin_pi
+print d_sin
