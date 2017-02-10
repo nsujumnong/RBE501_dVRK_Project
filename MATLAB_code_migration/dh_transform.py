@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 import rospy
 import numpy
+import sympy
 
 from numpy import *
+from sympy import *
 
-pi = numpy.pi
+pi = math.pi
 
 
 def dhTransform(theta,d,a,alpha):
