@@ -3,9 +3,11 @@
 import numpy as np
 import sympy
 import scipy
+import numdifftools as nd
 
 from numpy import *
 from sympy import *
+from numdifftools import *
 
 pi = math.pi
 
