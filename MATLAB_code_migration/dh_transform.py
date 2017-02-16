@@ -32,7 +32,7 @@ def translationMatrix(d,t_ax):
 		T = numpy.array([[1,0,0,0],[0,1,0,0],[0,0,1,d],[0,0,0,1]])
 
 	elif t_ax == 'all':
-		T = numpy.array([[1,0,0,d],[0,1,0,d],[0,0,1,d],[0,0,0,1]])	
+		T = numpy.array([[1,0,0,d[0]],[0,1,0,d[1]],[0,0,1,d[2]],[0,0,0,1]])	
 
 	else:
 		print('invalid axis')
