@@ -8,10 +8,13 @@ from forwardKin import *
 from scipy.misc import *
 from getPosMatrix import getPosMatrix
 from getRotMatrix import getRotMatrix
+from angularVel import *
+from angularAccel import *
+from linearAccel import *
 
 pi = numpy.pi
 
-#Testing parameters and DH table
+#Testing parameters and DH table of 4 DOF manipulator
 dh_table = numpy.array([[pi/6,2,3,0],[pi/4,5,10,pi/2],[pi/2,4,1,pi/2],[0,5,3,0]])
 rho = numpy.array([1,1,1,1])
 dq = numpy.array([1,1,1,1])
@@ -22,6 +25,7 @@ cm2 = numpy.array([[1],[1],[1]])
 cm3 = numpy.array([[1],[1],[1]])
 cm4 = numpy.array([[1],[1],[1]])
 cm = numpy.concatenate((cm1,cm2,cm3,cm4),axis=1)
+m = numpy.array([1,1,1,1])
 #print cm
 
 # The Newton-Euler algorithm computes the torque for each joint of the manipulator
@@ -44,24 +48,27 @@ def newtonEuler(dh_table, dq,ddq, joint_config):
 			R = getRotMatrix(i,dh_table)
 			P = getPosMatrix(i,dh_table)	
 			
+			#w_i = angularVel(R,w_i,dq[i],z,joint_config[i])
+			#dw_i = angularAccel(R,w_i,dw_i,dq[i],ddq[i],z,joint_config[i])
+			#dv_i = linearAccel(R,dw_i,P,dv_i,joint_config[i])
 #			
 			if joint_config[i] == 0:		#if joint is prismatic
+				#angular velocity
 				w_ip1 = numpy.dot(R,w_i)
 				w_i = w_ip1
+				#angular acceleration
 				dw_ip1 = numpy.dot(R,dw_i)
 				dw_i = dw_ip1
 			elif joint_config[i] == 1:		#if joint is revolute
 			#angular velocity
 				w_ip1 = numpy.dot(R,w_i)+numpy.dot(dq[i],z)
 				w_i = w_ip1
-				## NOTE: w_i must be returned as a 3x1 matrix
 			
 				#angular acceleration
 				## NOTE: Since numpy.cross() can only compute row matrix, the matrices must be transposed after the computation
 				dw_ip1 = numpy.dot(R,dw_i) + numpy.cross(numpy.dot(R,w_i).T,numpy.dot(dq[i],z).T).T + numpy.dot(ddq[i],z)
 			
 				dw_i = dw_ip1
-				# NOTE: dw_i must be returned as a 3x1 matrix
 			
 				#linear acceleration
 				comp1 = numpy.cross(dw_i.T,P)
@@ -85,10 +92,15 @@ def newtonEuler(dh_table, dq,ddq, joint_config):
 	
 #algorithm test
 w_1, dw_1, dv_1, P_C1, dv_c1 = newtonEuler(dh_table,dq,ddq,joint_config)
+print "w_1"
 print w_1
+print "dw_1"
 print dw_1
+print "dv_1"
 print dv_1
+print "P_C1"
 print P_C1
+print "dv_c1"
 print dv_c1
 
 
@@ -100,37 +112,4 @@ def forceMoment(m,dv_i,I_ci,dw_i):
 	N_i = I_dw_dot + numpy.cross(w_i,I_dw_dot)
 
 	return F_i, N_i
-
-def angularVel(R,w_i,ddq,z,joint_config):
-	if joint_config == 0:
-		w_ip1 = numpy.dot(R,w_i)
-		w_i = w_ip1
-	elif joint_config == 1:
-		w_ip1 = numpy.dot(R,w_i)+numpy.dot(ddq,z)
-		w_i = w_ip1
-	return w_i
-	
-def angularAccel(R,dw_i,dq,z,joint_config):
-	if joint_config == 0:
-		dw_ip1 = numpy.dot(R,dw_i)
-		dw_i = dw_ip1
-	elif joint_config == 1:
-		R_dw_dot = numpy.dot(R,dw_i)
-		dw_ip1 = R_dw_dot + numpy.cross(R_dw_dot.T,numpy.dot(dq_i,z).T).T + numpy.dot(ddq,z)
-		dw_i = dw_ip1
-		
-	return dw_i
-	
-def linearAccel(R,dw_i,P,dv_i):
-	if joint_config == 0: 
-		print "lol ain't gonna do that... for now"
-	elif joint_config == 1:
-		dw_P_i = numpy.cross(dw_i.T,P).T
-		dv_ip1 = numpy.dot(R,dw_P_i + numpy.cross(dw_i.T,dw_P_i.T).T+dv_i)
-		dv_i = dv_ip1
-	
-	return dv_i
-	
-
-
 

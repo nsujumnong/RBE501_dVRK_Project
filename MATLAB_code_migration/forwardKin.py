@@ -18,7 +18,6 @@ cm2 = numpy.array([[1],[1],[1]])
 cm3 = numpy.array([[1],[1],[1]])
 cm4 = numpy.array([[1],[1],[1]])
 cm = numpy.concatenate((cm1,cm2,cm3,cm4),axis=1)
-print cm
 
 #cm1_x, cm1_y, cm1_z = symbols('cm1_x cm1_y cm1_z',real=True)
 #cm2_x, cm2_y, cm2_z = symbols('cm2_x cm2_y cm2_z',real=True)

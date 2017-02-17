@@ -5,7 +5,7 @@ import numpy
 from numpy import *
 
 #compute the angular acceleration of each link
-def angularAccel(R,dw_i,dq,ddq,z,joint_config):
+def angularAccel(R,w_i,dw_i,dq,ddq,z,joint_config):
 	if joint_config == 0:
 		dw_ip1 = numpy.dot(R,dw_i)
 		dw_i = dw_ip1

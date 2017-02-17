@@ -81,6 +81,6 @@ def forwardPositionKinematics(i,dh_table,cm):
 	P_Ci = ith_T_cm[0:3,3]	
 	return P_Ci
 	
-P_C2 = forwardPositionKinematics(2,dh_table,cm)
-print P_C2
-print P_C2.shape
+#P_C2 = forwardPositionKinematics(2,dh_table,cm)
+#print P_C2
+#print P_C2.shape

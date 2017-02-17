@@ -2,17 +2,18 @@
 import rospy
 
 from numpy import *
-from sympy import *
 from dh_transform import dhTransform
 from forwardKin import *
-from scipy.misc import *
 from getPosMatrix import getPosMatrix
 from getRotMatrix import getRotMatrix
 from angularVel import *
 from angularAccel import *
 from linearAccel import *
+from forceMoment import *
 
 pi = numpy.pi
+
+###### This file is an exact copy of the newtonEuler.py for the testing of helper functions ######
 
 #Testing parameters and DH table of 4 DOF manipulator
 dh_table = numpy.array([[pi/6,2,3,0],[pi/4,5,10,pi/2],[pi/2,4,1,pi/2],[0,5,3,0]])
@@ -48,41 +49,21 @@ def newtonEuler(dh_table, dq,ddq, joint_config):
 			R = getRotMatrix(i,dh_table)
 			P = getPosMatrix(i,dh_table)	
 			
-			if joint_config[i] == 0:		#if joint is prismatic
-				#angular velocity
-				w_ip1 = numpy.dot(R,w_i)
-				w_i = w_ip1
-				#angular acceleration
-				dw_ip1 = numpy.dot(R,dw_i)
-				dw_i = dw_ip1
-			elif joint_config[i] == 1:		#if joint is revolute
-			#angular velocity
-				w_ip1 = numpy.dot(R,w_i)+numpy.dot(dq[i],z)
-				w_i = w_ip1
-			
-				#angular acceleration
-				## NOTE: Since numpy.cross() can only compute row matrix, the matrices must be transposed after the computation
-				dw_ip1 = numpy.dot(R,dw_i) + numpy.cross(numpy.dot(R,w_i).T,numpy.dot(dq[i],z).T).T + numpy.dot(ddq[i],z)
-			
-				dw_i = dw_ip1
-			
-				#linear acceleration
-				comp1 = numpy.cross(dw_i.T,P)
-				comp2 = comp1.T+numpy.cross(dw_i.T,comp1).T+dv_i
-				dv_ip1 = numpy.dot(R,comp2)
-				dv_i = dv_ip1
+			w_i = angularVel(R,w_i,dq[i],z,joint_config[i])
+			dw_i = angularAccel(R,w_i,dw_i,dq[i],ddq[i],z,joint_config[i])
+			dv_i = linearAccel(R,dw_i,P,dv_i,joint_config[i])
 				
-				##linear acceleration at center of mass
-				#compute position of the center of mass of link ith
-				P_Ci = forwardPositionKinematics(i,dh_table,cm)
-				P_Ci = P_Ci.reshape((3,1))
-				#let component1 = dw_i x P_ci
-				comp_c1 = numpy.cross(dw_i.T,P_Ci.T)
-				dv_ci = comp_c1.T + numpy.cross(w_i.T,comp_c1).T+dv_i
+			##linear acceleration at center of mass
+			#compute position of the center of mass of link ith
+			P_Ci = forwardPositionKinematics(i,dh_table,cm)
+			P_Ci = P_Ci.reshape((3,1))
+			#let component1 = dw_i x P_ci
+			comp_c1 = numpy.cross(dw_i.T,P_Ci.T)
+			dv_ci = comp_c1.T + numpy.cross(w_i.T,comp_c1).T+dv_i
 				
-				#compute force and moment components
-#				F_i, N_i = forceMoment(m[i],dv_i,I_ci,dw_i)
-#				f_i = numpy.dot(R,f_ip1) + F_i
+			#compute force and moment components
+			#F_i, N_i = forceMoment(m[i],dv_i,I_ci,dw_i)
+			#f_i = numpy.dot(R,f_ip1) + F_i
 				
 	return w_i, dw_i, dv_i, P_Ci, dv_ci
 	
@@ -98,14 +79,4 @@ print "P_C1"
 print P_C1
 print "dv_c1"
 print dv_c1
-
-
-def forceMoment(m,dv_i,I_ci,dw_i):
-	#Force component
-	F_i = numpy.dot(m[i],dv_ci)
-	#Normal force
-	I_dw_dot = numpy.dot(I_ci,dw_i)
-	N_i = I_dw_dot + numpy.cross(w_i,I_dw_dot)
-
-	return F_i, N_i
 
