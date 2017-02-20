@@ -5,7 +5,6 @@ from numpy import *
 from sympy import *
 from dh_transform import dhTransform
 from forwardKin import *
-from scipy.misc import *
 from getPosMatrix import getPosMatrix
 from getRotMatrix import getRotMatrix
 from angularVel import *

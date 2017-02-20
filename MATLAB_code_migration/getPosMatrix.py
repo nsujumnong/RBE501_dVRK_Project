@@ -3,10 +3,19 @@
 from numpy import *
 from sympy import *
 from dh_transform import dhTransform
+from forwardKin import forwardPositionKinematics
 from forwardKin import *
 from scipy.misc import *
 
-def getPosMatrix(i,dh_table):
+# dh_table = numpy.array([[pi/6,2,3,0],[pi/4,5,10,pi/2],[pi/2,4,1,pi/2],[0,5,3,0]])
+
+# cm1 = numpy.array([[1],[1],[1]])
+# cm2 = numpy.array([[1],[1],[1]])
+# cm3 = numpy.array([[1],[1],[1]])
+# cm4 = numpy.array([[1],[1],[1]])
+# cm = numpy.concatenate((cm1,cm2,cm3,cm4),axis=1)
+
+def getPosMatrix(i,dh_table,cm):
 	
 	#for ith link
 	theta_i = dh_table[i-1,0]
@@ -23,17 +32,18 @@ def getPosMatrix(i,dh_table):
 	a_ip1 = dh_table[i,2]
 	alpha_ip1 = dh_table[i,3]
 	#Get the position matrices
-	T_ip1 = dhTransform(theta_ip1,d_ip1,a_ip1,alpha_ip1)
-	T = numpy.dot(T_i,T_ip1)
-	#print "T_",i
-	#print T_ip1
-	P = T[0:3,3]
-	return P
+	P_ip1 = forwardPositionKinematics(i,dh_table,cm)
+	P_i = T_i[0:3,3]
+	#print P_ip1
+	#print P_i
+	P_ci = P_ip1 - P_i 
+	return P_ci
 	
 #function test
-#P_i, P_ip1 = getPosMatrix(1,dh_table)
-#print P_i
-#print P_i.shape
+#P_c1 = getPosMatrix(1,dh_table,cm)
+#print P_c1
+#print P_c1.shape
 #print P_ip1
 #print P_ip1.shape
+
 

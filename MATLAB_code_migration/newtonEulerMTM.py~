@@ -13,7 +13,8 @@ from linearAccel import *
 pi = numpy.pi
 #q1,q2,q3,q4,q5,q6,q7 = symbols('q1 q2 q3 q4 q5 q6 q7',real=True)
 q = numpy.array([1.0,1.0,1.0,1.0,1.0,1.0,1.0])
-## This is an exact copy of newtonEuler.py with real parameters from daVinci MTM ##
+## This is an exact copy of newtonEuler.py with real parameters from daVinci MTM ## 
+## some parameters must be acquired through the actual robot, so right now some of them will be assumed as constant 1
 # Link length
 #link length = numpy.array([L1 L2 L3 L4_y0 L4_z0 L5_y0 L5_z0 L6_z0 L6_x0])
 L = numpy.array([0.195, 0.285, 0.370, 0.115, 0.150, 11.5, 0.0725, 0.0725, 0.060])
@@ -65,6 +66,8 @@ def newtonEuler(dh_table, dq,ddq, joint_config):
 			w_i = angularVel(R,w_i,dq[i],z,joint_config[i])
 			dw_i = angularAccel(R,w_i,dw_i,dq[i],ddq[i],z,joint_config[i])
 			dv_i = linearAccel(R,dw_i,P,dv_i,joint_config[i])
+			print "w_",i
+			print w_i
 				
 			##linear acceleration at center of mass
 			#compute position of the center of mass of link ith
@@ -75,21 +78,23 @@ def newtonEuler(dh_table, dq,ddq, joint_config):
 			dv_ci = comp_c1.T + numpy.cross(w_i.T,comp_c1).T+dv_i
 				
 			#compute force and moment components
-			#F_i, N_i = forceMoment(m[i],dv_i,I_ci,dw_i)
-			#f_i = numpy.dot(R,f_ip1) + F_i
-				
+			F_i, N_i = forceMoment(m[i],dv_i,I_ci,dw_i)
+			
+			f_i = numpy.dot(R,f_ip1)+F_i
+			n_i = N_i + numpy.dot(R,n_ip1) + numpy.cross(P_Ci,F_i) + numpy.cross(P_i,numpy.dot(R,f_ip1))
+					
 	return w_i, dw_i, dv_i, P_Ci, dv_ci
 	
 #algorithm test
-w_1, dw_1, dv_1, P_C1, dv_c1 = newtonEuler(dh_table,dq,ddq,joint_config)
-print "w_1"
-print w_1
-print "dw_1"
-print dw_1
-print "dv_1"
-print dv_1
-print "P_C1"
-print P_C1
-print "dv_c1"
-print dv_c1
+w_i, dw_i, dv_i, P_Ci, dv_ci = newtonEuler(dh_table,dq,ddq,joint_config)
+print "w_i"
+print w_i
+print "dw_i"
+print dw_i
+print "dv_i"
+print dv_i
+print "P_Ci"
+print P_Ci
+print "dv_ci"
+print dv_ci
 
