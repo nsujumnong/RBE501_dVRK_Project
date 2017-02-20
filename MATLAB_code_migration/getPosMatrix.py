@@ -15,7 +15,9 @@ from scipy.misc import *
 # cm4 = numpy.array([[1],[1],[1]])
 # cm = numpy.concatenate((cm1,cm2,cm3,cm4),axis=1)
 
-def getPosMatrix(i,dh_table,cm):
+#This function actually computes the link length not the position of the joint
+
+def getPosMatrix(i,dh_table):
 	
 	#for ith link
 	theta_i = dh_table[i-1,0]
@@ -32,12 +34,13 @@ def getPosMatrix(i,dh_table,cm):
 	a_ip1 = dh_table[i,2]
 	alpha_ip1 = dh_table[i,3]
 	#Get the position matrices
-	P_ip1 = forwardPositionKinematics(i,dh_table,cm)
+	T_ip1 = dhTransform(theta_ip1,d_ip1,a_ip1,alpha_ip1)
 	P_i = T_i[0:3,3]
+	P_ip1 = T_ip1[0:3,3]
 	#print P_ip1
 	#print P_i
-	P_ci = P_ip1 - P_i 
-	return P_ci
+	P_r = P_ip1 - P_i 
+	return P_r
 	
 #function test
 #P_c1 = getPosMatrix(1,dh_table,cm)
