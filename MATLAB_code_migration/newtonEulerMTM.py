@@ -11,6 +11,7 @@ from angularVel import *
 from angularAccel import *
 from linearAccel import *
 from forceMoment import *
+from inertiaTensor import *
 
 pi = numpy.pi
 #q1,q2,q3,q4,q5,q6,q7 = symbols('q1 q2 q3 q4 q5 q6 q7',real=True)
@@ -53,6 +54,7 @@ def newtonEuler(dh_table, dq,ddq, joint_config):
 	#compute rotational and linear velocity and acceleration
 	n = len(dh_table)
 	g = 9.81			#gravitational acceleration (scalar)
+	I_ci = inertiaTensor(m,dh_table,cm)
 	
 	w_i = numpy.array([[0],[0],[0]])		#ground angular velocity (at base joint)
 	dw_i = numpy.array([[0],[0],[0]])		#ground angular acceleration (at base joint)
@@ -86,11 +88,11 @@ def newtonEuler(dh_table, dq,ddq, joint_config):
 			dv_ci = comp_c1.T + numpy.cross(w_i.T,comp_c1).T+dv_i
 				
 			#compute force and moment components
-			F_i, N_i = forceMoment(m[i],dv_i,I_ci,w_i,dw_i)
+			F_i, N_i = forceMoment(m[i],dv_i,I_ci[i],w_i,dw_i)
 			
 			#backward iteration (force and moment)
 			f_i = numpy.dot(R,f_ip1)+F_i
-			n_i = N_i + numpy.dot(R,n_ip1) + numpy.cross(P_Ci,F_i) + numpy.cross(P_i,numpy.dot(R,f_ip1))
+			n_i = N_i + numpy.dot(R,n_ip1) + numpy.cross(P_Ci,F_i) + numpy.cross(P_r,numpy.dot(R,f_ip1))
 
 			w_i = w_ip1
 			dw_i = dw_ip1
@@ -100,17 +102,17 @@ def newtonEuler(dh_table, dq,ddq, joint_config):
 	
 #algorithm test
 w_i, dw_i, dv_i, P_Ci, dv_ci, f_ip1, n_ip1 = newtonEuler(dh_table,dq,ddq,joint_config)
-print "w_i"
-print w_i
-print "dw_i"
-print dw_i
-print "dv_i"
-print dv_i
-print "P_Ci"
-print P_Ci
-print "dv_ci"
-print dv_ci
-print "f_ip1"
-print f_ip1
-print "n_ip1"
-print n_ip1
+# print "w_i"
+# print w_i
+# print "dw_i"
+# print dw_i
+# print "dv_i"
+# print dv_i
+# print "P_Ci"
+# print P_Ci
+# print "dv_ci"
+# print dv_ci
+# print "f_ip1"
+# print f_ip1
+# print "n_ip1"
+# print n_ip1

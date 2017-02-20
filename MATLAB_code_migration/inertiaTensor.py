@@ -16,6 +16,8 @@ cm = numpy.concatenate((cm1,cm2,cm3,cm4),axis=1)
 
 m = numpy.array([1,1,1,1])
 
+#This function takes masses, the DH parameter, and center of mass of each link to compute and 
+#generate the inertia tensor matrix
 def inertiaTensor(m,dh_table,cm):
 
 	n = len(dh_table)
