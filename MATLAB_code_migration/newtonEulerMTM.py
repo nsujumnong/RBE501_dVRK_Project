@@ -47,6 +47,7 @@ cm = numpy.concatenate((cm1,cm2,cm3,cm4,cm5,cm6,cm7),axis=1)
 #print cm
 #still assume all m to be 1
 m = numpy.array([0.8,0.10,0.10,0.05,0.05,0.05,0])
+z = numpy.array([[0],[0],[1]])
 #print cm
 
 # The Newton-Euler algorithm computes the torque for each joint of the manipulator
@@ -63,6 +64,8 @@ def newtonEuler(dh_table, dq,ddq, joint_config):
 	z = numpy.array([[0],[0],[1]])			#unit vector of z-axis
 	f_ip1 = numpy.array([[0],[0],[0]])		#initiate end-effector force with 0
 	n_ip1 = numpy.array([[0],[0],[0]])		#initiate end-effector torque with 0 
+
+	t_i = numpy.zeros(n)
 
 	if len(joint_config) != len(dh_table):
 		print "cannot find solution"
@@ -88,31 +91,26 @@ def newtonEuler(dh_table, dq,ddq, joint_config):
 			dv_ci = comp_c1.T + numpy.cross(w_i.T,comp_c1).T+dv_i
 				
 			#compute force and moment components
-			F_i, N_i = forceMoment(m[i],dv_i,I_ci[i],w_i,dw_i)
+			F_i, N_i = forceMoment(m[i],dv_ci,dv_i,I_ci[i],w_i,dw_i)
 			
 			#backward iteration (force and moment)
 			f_i = numpy.dot(R,f_ip1)+F_i
-			n_i = N_i + numpy.dot(R,n_ip1) + numpy.cross(P_Ci,F_i) + numpy.cross(P_r,numpy.dot(R,f_ip1))
+			n_i = N_i + numpy.dot(R,n_ip1) + numpy.cross(P_Ci.T,F_i.T).T + numpy.cross(P_r.T,numpy.dot(R,f_ip1).T).T
+
+			#compute torque
+			if joint_config[i] == 0:
+				t_i[i] = numpy.dot(f_i.T,z)
+			elif joint_config[i] == 1:
+				t_i[i] = numpy.dot(n_i.T,z)
 
 			w_i = w_ip1
 			dw_i = dw_ip1
 			dv_i = dv_ip1
+			f_ip1 = f_i
+			n_ip1 = n_i
 					
-	return w_i, dw_i, dv_i, P_Ci, dv_ci, f_ip1, n_ip1
+	return t_i
 	
 #algorithm test
-w_i, dw_i, dv_i, P_Ci, dv_ci, f_ip1, n_ip1 = newtonEuler(dh_table,dq,ddq,joint_config)
-# print "w_i"
-# print w_i
-# print "dw_i"
-# print dw_i
-# print "dv_i"
-# print dv_i
-# print "P_Ci"
-# print P_Ci
-# print "dv_ci"
-# print dv_ci
-# print "f_ip1"
-# print f_ip1
-# print "n_ip1"
-# print n_ip1
+t_i = newtonEuler(dh_table,dq,ddq,joint_config)
+print t_i

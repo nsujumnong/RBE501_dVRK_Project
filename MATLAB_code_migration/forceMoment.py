@@ -4,12 +4,11 @@ import numpy
 
 from numpy import *
 
-def forceMoment(m,dv_i,I_ci,w_i,dw_i):
+def forceMoment(m,dv_ci,dv_i,I_ci,w_i,dw_i):
 	#Force component
-	F_i = numpy.dot(m[i],dv_ci)
-	#Normal force
-	I_dw_dot = numpy.dot(I_ci,dw_i)
-	N_i = I_dw_dot + numpy.cross(w_i,numpy.dot(I_ci,w_i))
+	F_i = numpy.dot(m,dv_ci)
+	#Moment component
+	N_i = numpy.dot(I_ci,dw_i) + numpy.cross(w_i.T,numpy.dot(I_ci,w_i).T).T
 
 	return F_i, N_i
 
