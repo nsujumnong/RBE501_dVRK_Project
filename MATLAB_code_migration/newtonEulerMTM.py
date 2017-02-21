@@ -14,7 +14,7 @@ from forceMoment import *
 from inertiaTensor import *
 
 pi = numpy.pi
-#q1,q2,q3,q4,q5,q6,q7 = symbols('q1 q2 q3 q4 q5 q6 q7',real=True)
+#joint angle in radian (assume all 1 for now)
 q = numpy.array([1.0,1.0,1.0,1.0,1.0,1.0,1.0])
 
 ## This is an exact copy of newtonEuler.py with real parameters from daVinci MTM ## 
@@ -28,13 +28,13 @@ a = numpy.array([[0], [L[1]], [L[2]], [0], [0], [0], [0]])
 alpha = numpy.array([[-pi/2.0], [0], [pi/2.0], [-pi/2.0], [-pi/2.0], [pi/2.0], [0]])
 dh_table = numpy.concatenate((theta,d,a,alpha),axis=1)
 
-#print dh_table
-dq = numpy.array([1,1,1,1,1,1,1])
+dq = numpy.array([1,1,1,1,1,1,1])				#joint velocity and acceleration for revolute joint 
 ddq = numpy.array([1,1,1,1,1,1,1])
-d_d = numpy.array([1,1,1,1,1,1,1])
-dd_d = numpy.array([1,1,1,1,1,1,1])
-joint_config = numpy.array([1,1,1,1,1,1,1])
+#d_d = numpy.array([1,1,1,1,1,1,1])				#joint velocity and acceleration for prismatic joint
+#dd_d = numpy.array([1,1,1,1,1,1,1])
+joint_config = numpy.array([1,1,1,1,1,1,1])		# 0 if prismatic. 1 if revolute
 
+#center of mass components
 cm1 = numpy.array([[0],[-L[0]/2.0],[0]])
 cm2 = numpy.array([[-L[1]/2],[0],[0]])
 cm3 = numpy.array([[-L[2]/2],[0],[0]])
@@ -44,17 +44,16 @@ cm6 = numpy.array([[0],[-3.0/4.0*L[7]],[-3.0/4.0*L[8]]])
 cm7 = numpy.array([[0],[0],[0]])
 
 cm = numpy.concatenate((cm1,cm2,cm3,cm4,cm5,cm6,cm7),axis=1)
-#print cm
-#still assume all m to be 1
+
+#link mass
 m = numpy.array([0.8,0.10,0.10,0.05,0.05,0.05,0])
 z = numpy.array([[0],[0],[1]])
-#print cm
 
 # The Newton-Euler algorithm computes the torque for each joint of the manipulator
 def newtonEuler(dh_table, dq,ddq, joint_config):
 	#compute rotational and linear velocity and acceleration
 	n = len(dh_table)
-	g = 9.81			#gravitational acceleration (scalar)
+	g = 9.80665								#gravitational acceleration (scalar)
 	I_ci = inertiaTensor(m,dh_table,cm)
 	
 	w_i = numpy.array([[0],[0],[0]])		#ground angular velocity (at base joint)
@@ -98,9 +97,9 @@ def newtonEuler(dh_table, dq,ddq, joint_config):
 			n_i = N_i + numpy.dot(R,n_ip1) + numpy.cross(P_Ci.T,F_i.T).T + numpy.cross(P_r.T,numpy.dot(R,f_ip1).T).T
 
 			#compute torque
-			if joint_config[i] == 0:
+			if joint_config[i] == 0:			#if prismatic joint
 				t_i[i] = numpy.dot(f_i.T,z)
-			elif joint_config[i] == 1:
+			elif joint_config[i] == 1:			#if revolute joint
 				t_i[i] = numpy.dot(n_i.T,z)
 
 			w_i = w_ip1
