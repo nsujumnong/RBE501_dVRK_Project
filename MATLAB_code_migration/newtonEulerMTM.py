@@ -17,7 +17,7 @@ pi = numpy.pi
 #joint angle in radian (assume all 1 for now)
 q = numpy.array([1.0,1.0,1.0,1.0,1.0,1.0,1.0])
 
-## This is a Newton-Euler algorith with daVinci MTM parameters ## 
+## This is an exact copy of newtonEuler.py with real parameters from daVinci MTM ## 
 ## some parameters must be acquired through the actual robot, so right now some of them will be assumed as constant 1
 # Link length
 #link length = numpy.array([L1 L2 L3 L4_y0 L4_z0 L5_y0 L5_z0 L6_z0 L6_x0])
