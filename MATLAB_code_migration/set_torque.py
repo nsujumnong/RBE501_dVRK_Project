@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 import rospy
 
-<<<<<<< HEAD
-
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Float64MultiArray
 from cisst_msgs.msg import vctDoubleVec
@@ -20,18 +18,17 @@ def gravityCompensation():
 	joint_config = numpy.array([1,1,1,1,1,1,1])
 	rospy.init_node('gravityCompensation', anonymous=true)
 	sub_pos = rospy.Subscriber('/dvrk_mtm/joint_position_current',Float64MultiArray)
-<<<<<<< HEAD
+
 	pub_tor = rospy.Pulisher('/dvrk_mtm/set_joint_effort',Float64MultiArray,queue_size=10)
 
 	#position error
-=======
+
 	pub_tor = rospy.Publisher('/dvrk_mtm/set_joint_effort',Float64MultiArray,queue_size=10)
->>>>>>> 6e80abb229958c9f0741def60b3ae8106eb13bb2
+
 
 	#initiate position error
 	position_error = numpy.zeros((8,100))
 
-<<<<<<< HEAD
 	for i in range 0:99:
 		#get current position by subscribing to '/dvrk_mtm/joint_position_current' here
 
@@ -39,7 +36,7 @@ def gravityCompensation():
 		#implement torque by publishing to '/dvrk_mtm/set_joint_effort' here
 		#need delay factor too
 		position_error[0:7,i] = #current position - desired position
-=======
+
 	for i in range (0,99):
 		#get current position by subscribing to '/dvrk_mtm/joint_position_current' here
 		torque = newtonEuler(dh_table,dq,ddq,joint_config)
@@ -48,8 +45,6 @@ def gravityCompensation():
 		#need delay factor too
 		rospy.sleep(0.01)
 		position_error[0:7,i] = #current position - desired position
-
->>>>>>> 6e80abb229958c9f0741def60b3ae8106eb13bb2
 
 def set_torque(position,torque):
 
@@ -62,7 +57,3 @@ def set_torque(position,torque):
 	msg.Effort[6] = torque[6]
 
 
-=======
-def set_torque():
-	
->>>>>>> parent of b1b8104... edited 'set_torque' and add some description
