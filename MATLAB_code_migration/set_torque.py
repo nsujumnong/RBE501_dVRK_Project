@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import rospy
 
+<<<<<<< HEAD
 
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Float64MultiArray
@@ -45,3 +46,7 @@ def set_torque(position,torque):
 	msg.Effort[6] = torque[6]
 
 
+=======
+def set_torque():
+	
+>>>>>>> parent of b1b8104... edited 'set_torque' and add some description
