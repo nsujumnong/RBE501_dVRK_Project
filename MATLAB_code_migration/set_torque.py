@@ -11,6 +11,9 @@ from newtonEulerMTM import *
 #public torque for each jointeffort 
 #compute the position error
 
+#since this algorithm is based on velocity and acceleration, we must limit those varables to 0
+#in order to maintain the current configuration (compensat the gravity)
+
 #subscribe for desired position here
 def gravityCompensation():
 	msg = JointState()
@@ -18,6 +21,9 @@ def gravityCompensation():
 	joint_config = numpy.array([1,1,1,1,1,1,1])
 	rospy.init_node('gravityCompensation', anonymous=true)
 	sub_pos = rospy.Subscriber('/dvrk_mtm/joint_position_current',Float64MultiArray)
+	#subscribe joint velocity and joint acceleration
+	sub_vel = rospy.Subscriber('',Float64MultiArray)
+	sub_acc = rospy.Subscriber('',Float64MultiArray)
 
 	pub_tor = rospy.Pulisher('/dvrk_mtm/set_joint_effort',Float64MultiArray,queue_size=10)
 
