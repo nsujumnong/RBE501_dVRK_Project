@@ -7,9 +7,7 @@ from cisst_msgs.msg import vctDoubleVec
 
 from newtonEulerMTM import *
 
-#get position node from daVinci
 #public torque for each jointeffort 
-#compute the position error
 
 #since this algorithm is based on velocity and acceleration, we must limit those varables to 0
 #in order to maintain the current configuration (compensate the gravity)
@@ -26,10 +24,6 @@ def gravityCompensation():
 	sub_pos = rospy.Subscriber('/dvrk/MTMR/joint_position_current',Float64MultiArray)
 	#subscribe joint velocity and joint acceleration
 
-	pub_tor = rospy.Pulisher('/dvrk_mtm/set_joint_effort',Float64MultiArray,queue_size=10)
-
-	#position error
-
 	pub_tor = rospy.Publisher('/dvrk_mtm/set_joint_effort',Float64MultiArray,queue_size=10)
 
 	#initiate position error
@@ -42,6 +36,8 @@ def gravityCompensation():
 		#set_torque(position,torque)
 		#need delay factor too
 		rospy.sleep(0.01)
-		# position_error[0:7,i] = #current position - desired position
+
+		#test position error
+		position_error[0:6,i] = #current position - desired position
 
 
