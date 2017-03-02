@@ -111,5 +111,5 @@ def newtonEuler(dh_table, dq,ddq, joint_config):
 	return t_i
 	
 #algorithm test
-t_i = newtonEuler(dh_table,dq,ddq,joint_config)
-print t_i
+#t_i = newtonEuler(dh_table,dq,ddq,joint_config)
+#print t_i

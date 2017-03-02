@@ -21,9 +21,9 @@ def gravityCompensation():
 	#all joints are revolute joint
 	joint_config = numpy.array([1,1,1,1,1,1,1])
 	rospy.init_node('gravityCompensation', anonymous=true)
-	sub_pos = rospy.Subscriber('/dvrk/MTMR/joint_position_current',Float64MultiArray)
+	sub_pos = rospy.Subscriber('/dvrk/MTMR/state_joint_current',Float64MultiArray)
 	#subscribe joint velocity and joint acceleration
-
+	#publish torque (which currently i have no idea what the topic is called)
 	pub_tor = rospy.Publisher('/dvrk_mtm/set_joint_effort',Float64MultiArray,queue_size=10)
 
 	#initiate position error
