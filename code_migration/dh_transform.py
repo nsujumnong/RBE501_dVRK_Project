@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 import rospy
 import numpy
-import sympy
+#import sympy
 
 from numpy import *
-from sympy import *
+#from sympy import *
 
 pi = math.pi
 

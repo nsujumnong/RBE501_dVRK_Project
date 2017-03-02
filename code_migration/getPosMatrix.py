@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
 from numpy import *
-from sympy import *
+#from sympy import *
 from dh_transform import dhTransform
 from forwardKin import forwardPositionKinematics
 from forwardKin import *
-from scipy.misc import *
+#from scipy.misc import *
 
 # dh_table = numpy.array([[pi/6,2,3,0],[pi/4,5,10,pi/2],[pi/2,4,1,pi/2],[0,5,3,0]])
 

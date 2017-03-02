@@ -2,10 +2,10 @@
 import rospy
 
 from numpy import *
-from sympy import *
+#from sympy import *
 from dh_transform import dhTransform
 from forwardKin import *
-from scipy.misc import *
+#from scipy.misc import *
 
 def getRotMatrix(i,dh_table):
 	#get the rotation matrix of ith and ith+1 transformation matrix

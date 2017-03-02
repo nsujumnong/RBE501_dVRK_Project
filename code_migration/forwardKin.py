@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 import rospy
 import numpy
-import sympy
+#import sympy
 
 from dh_transform import dhTransform
 from dh_transform import translationMatrix
 from numpy import *
-from sympy import *
+#from sympy import *
 
 pi = numpy.pi
 

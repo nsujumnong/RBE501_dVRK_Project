@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
 from numpy import *
-from sympy import *
+#from sympy import *
 from dh_transform import dhTransform
 from forwardKin import *
-from scipy.misc import *
+#from scipy.misc import *
 
 def getPosMatrix(i,dh_table):
 	
