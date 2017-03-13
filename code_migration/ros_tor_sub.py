@@ -26,7 +26,7 @@ def tor_listener():
 
 	rospy.init_node('tor_listener', anonymous=True)
 
-	rospy.Subscriber('/dvrk/MTMR/get_current_joint_effort',vctDoubleVec, callback)
+	rospy.Subscriber('joint_states/get_current_joint_effort',JointState, callback)
 
 	rospy.spin()
 

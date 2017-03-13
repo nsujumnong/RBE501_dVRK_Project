@@ -14,9 +14,13 @@ def callback(data):
 
 def pos_sub():
 	rospy.init_node('pos_sub',anonymous=True)
-	rospy.Subscriber("sensor_msgs/JointState",JointState, callback)
+	rospy.Subscriber("joint_states/joint_position_current",JointState, callback)
 
 	rospy.spin()
+
+def effort_sub():
+	rospy.init_node('effort_sub',anonymous=True)
+	rospy.Subscriber("joint_states/")
 
 if __name__ == '__main__':
 	pos_sub()
