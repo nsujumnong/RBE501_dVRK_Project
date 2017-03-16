@@ -3,30 +3,18 @@
 import rospy
 
 from sensor_msgs.msg import JointState
-from cisst_msgs.msg import vctDoubleVec
+from geometry_msgs.msg import WrenchStamped
 
 def callback(data):
-	tup = data.data
+    tup = data
     rospy.loginfo(rospy.get_caller_id())
-    print (tup)
-    str = type(tup)
-    print(str)
-#    list(tup)
-#    str = type(tup)
-#    print(str)
-    msg.layout.dim = []
-    msg.layout.data_offset = 0
-    msg.data = tup
-    print(msg.data)
-    pub.publish(msg)
-
-
+    print(tup)
 
 def tor_listener():
 
 	rospy.init_node('tor_listener', anonymous=True)
 
-	rospy.Subscriber('joint_states/get_current_joint_effort',JointState, callback)
+	rospy.Subscriber('/dvrk/MTML/wrench_body_current',WrenchStamped, callback)
 
 	rospy.spin()
 
