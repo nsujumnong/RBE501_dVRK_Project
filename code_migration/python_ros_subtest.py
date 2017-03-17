@@ -4,8 +4,10 @@ import rospy
 
 from sensor_msgs.msg import JointState
 
+#testing code for joint state subscription
+
 def callback(data):
-	tup = data
+	tup = data.position
 	rospy.loginfo(rospy.get_caller_id())
 	print(tup)
 

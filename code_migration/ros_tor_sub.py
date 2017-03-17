@@ -5,6 +5,8 @@ import rospy
 from sensor_msgs.msg import JointState
 from geometry_msgs.msg import WrenchStamped
 
+#testing code for wrench subscription
+
 def callback(data):
     tup = data
     rospy.loginfo(rospy.get_caller_id())
