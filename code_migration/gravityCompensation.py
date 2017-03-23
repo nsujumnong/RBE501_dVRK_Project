@@ -6,13 +6,12 @@ from std_msgs.msg import Float64MultiArray
 from cisst_msgs.msg import vctDoubleVec
 
 from newtonEulerMTM import *
+from daVinci_param import *
 
 #public torque for each jointeffort 
 
 #since this algorithm is based on velocity and acceleration, we must limit those varables to 0
 #in order to maintain the current configuration (compensate the gravity)
-
-#desired velocity and acceleration
 
 #steps: subscribe joint positions --> calculate torque --> publish torque
 def pos_cb(data):
@@ -22,18 +21,14 @@ def pos_cb(data):
 
 def sub_pos():
 	rospy.init_node('sub_pos',anomymous=True)
+	#the topic's name must be changed accordingly
 	rospy.Subscriber("/dvrk/MTML/joint_states",JointStates,pos_cb)
 
 	rospy.spin()
 
 q = numpy.array([pos[0],pos[1],pos[2],pos[3],pos[4],pos[5],pos[6]])
 
-L = numpy.array([0.195, 0.285, 0.370, 0.115, 0.150, 11.5, 0.0725, 0.0725, 0.060])
-theta = numpy.array([[q[0]], [-q[1]+pi/2.0], [-q[2]-pi/2.0], [q[3]], [-q[4]-pi], [q[5]-pi/2.0], [-q[6]]])
-d = numpy.array([[-1.0*L[0]], [0], [0], [L[4]], [0], [0], [0]])
-a = numpy.array([[0], [L[1]], [L[2]], [0], [0], [0], [0]])
-alpha = numpy.array([[-pi/2.0], [0], [pi/2.0], [-pi/2.0], [-pi/2.0], [pi/2.0], [0]])
-dh_table = numpy.concatenate((theta,d,a,alpha),axis=1)
+dh_table = davinci_param(q)
 joint_config = numpy.array([1,1,1,1,1,1,1])
 dq = numpy.array([0,0,0,0,0,0,0])
 ddq = numpy.array([0,0,0,0,0,0,0])
