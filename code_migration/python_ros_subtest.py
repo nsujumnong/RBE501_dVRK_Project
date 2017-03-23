@@ -10,10 +10,11 @@ def callback(data):
 	tup = data.position
 	rospy.loginfo(rospy.get_caller_id())
 	print(tup)
+	print(tup[0])
 
 def pos_sub():
 	rospy.init_node('pos_sub',anonymous=True)
-	rospy.Subscriber("/dvrk/MTML/joint_states",JointState, callback)
+	rospy.Subscriber("/dvrk/MTMR/joint_states",JointState, callback)
 
 	rospy.spin()
 
