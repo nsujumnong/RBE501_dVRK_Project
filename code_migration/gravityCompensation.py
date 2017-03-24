@@ -3,7 +3,6 @@ import rospy
 
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Float64MultiArray
-from cisst_msgs.msg import vctDoubleVec
 
 from newtonEulerMTM import *
 from daVinci_param import *
@@ -14,6 +13,8 @@ from daVinci_param import *
 #in order to maintain the current configuration (compensate the gravity)
 
 #steps: subscribe joint positions --> calculate torque --> publish torque
+pub = 
+
 def pos_cb(data):
 	pos = data.position
 	rospy.loginfo(rospy.get_call_id())
