@@ -28,8 +28,8 @@ a = numpy.array([[0], [L[1]], [L[2]], [0], [0], [0], [0]])
 alpha = numpy.array([[-pi/2.0], [0], [pi/2.0], [-pi/2.0], [-pi/2.0], [pi/2.0], [0]])
 dh_table = numpy.concatenate((theta,d,a,alpha),axis=1)
 
-dq = numpy.array([1,1,1,1,1,1,1])				#joint velocity and acceleration for revolute joint 
-ddq = numpy.array([1,1,1,1,1,1,1])
+dq = numpy.array([0,0,0,0,0,0,0])				#joint velocity and acceleration for revolute joint 
+ddq = numpy.array([0,0,0,0,0,0,0])
 #d_d = numpy.array([1,1,1,1,1,1,1])				#joint velocity and acceleration for prismatic joint
 #dd_d = numpy.array([1,1,1,1,1,1,1])
 joint_config = numpy.array([1,1,1,1,1,1,1])		# 0 if prismatic. 1 if revolute
