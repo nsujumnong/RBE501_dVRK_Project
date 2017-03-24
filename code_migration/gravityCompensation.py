@@ -22,7 +22,7 @@ def pos_cb(data):
 def sub_pos():
 	rospy.init_node('sub_pos',anomymous=True)
 	#the topic's name must be changed accordingly
-	rospy.Subscriber("/dvrk/MTML/joint_states",JointStates,pos_cb)
+	rospy.Subscriber("/dvrk/MTMR/joint_states",JointStates,pos_cb)
 
 	rospy.spin()
 
@@ -35,13 +35,13 @@ ddq = numpy.array([0,0,0,0,0,0,0])
 
 torque = newtonEulerMTM(dh_table, dq,ddq, joint_config)
 
-def gravityCompensation():
+def tor_pub():
 	msg = JointState()
 	#all joints are revolute joint
 	
 	rospy.init_node('gravityCompensation', anonymous=true)
 	#publish torque (which currently i have no idea what the topic is called)
-	pub_tor = rospy.Publisher('/dvrk_mtm/set_joint_effort',Float64MultiArray,queue_size=10)
+	pub_tor = rospy.Publisher('/dvrk/MTMR/state_joint_desired',Float64MultiArray,queue_size=10)
 
 
 
