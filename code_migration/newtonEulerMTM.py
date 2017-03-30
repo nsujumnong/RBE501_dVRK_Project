@@ -15,7 +15,7 @@ from inertiaTensor import *
 
 pi = numpy.pi
 #joint angle in radian (assume all 1 for now)
-q = numpy.array([1.0,1.0,1.0,1.0,1.0,1.0,1.0])
+q = numpy.array([0.0,0.0,0.0,0.0,0.0,0.0,0.0])
 
 ## This is an exact copy of newtonEuler.py with real parameters from daVinci MTM ## 
 ## some parameters must be acquired through the actual robot, so right now some of them will be assumed as constant 1
@@ -109,7 +109,7 @@ def newtonEuler(dh_table, dq,ddq, joint_config):
 			n_ip1 = n_i
 					
 	t_i = numpy.array([t_i[0],t_i[1],t_i[1],t_i[2],t_i[3],t_i[4],t_i[5],t_i[6]])	
-	t_i = tuple(t_i)
+	# t_i = tuple(t_i)
 	return t_i
 	
 #algorithm test

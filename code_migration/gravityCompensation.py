@@ -16,9 +16,9 @@ from daVinci_param import *
 pub = 
 
 def pos_cb(data):
+	global pos
 	pos = data.position
 	rospy.loginfo(rospy.get_call_id())
-	print(pos)
 
 def sub_pos():
 	rospy.init_node('sub_pos',anomymous=True)
@@ -34,15 +34,16 @@ joint_config = numpy.array([1,1,1,1,1,1,1])
 dq = numpy.array([0,0,0,0,0,0,0])
 ddq = numpy.array([0,0,0,0,0,0,0])
 
+global torque
 torque = newtonEulerMTM(dh_table, dq,ddq, joint_config)
 
 def tor_pub():
-	msg = JointState()
-	#all joints are revolute joint
 	
 	rospy.init_node('gravityCompensation', anonymous=true)
 	#publish torque (which currently i have no idea what the topic is called)
-	pub_tor = rospy.Publisher('/dvrk/MTMR/state_joint_desired',Float64MultiArray,queue_size=10)
-
-
+	pub_tor = rospy.Publisher('/dvrk/MTMR/set_torque_joint',JointState,queue_size=10)
+	while not rospy.is_shutdown():
+			rospy.loginfo(torque)
+			pub.publish(torque)
+			rate.sleep()
 

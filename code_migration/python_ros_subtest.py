@@ -10,6 +10,7 @@ from sensor_msgs.msg import JointState
 #testing code for joint state subscription
 
 def callback(data):
+	global tup
 	tup = data.position
 	rospy.loginfo(rospy.get_caller_id())
 	
@@ -25,5 +26,5 @@ def pos_sub():
 if __name__ == '__main__':
 	pos_sub()
 
-# q = numpy.array([tup[0],tup[1],tup[2],tup[3],tup[4],tup[5],tup[6]])
-q = callback()
+q = numpy.array([tup[0],tup[1],tup[2],tup[3],tup[4],tup[5],tup[6]])
+print(q)

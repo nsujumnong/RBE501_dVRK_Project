@@ -1,5 +1,6 @@
-sub_pos = rossubscriber('/dvrk/MTMR/get_current_joint_position');
- pub_tor = rospublisher('/dvrk/MTMR/set_wrench_body');
+rosinit
+sub_pos = rossubscriber('/dvrk/MTMR/state_joint_current');
+ pub_tor = rospublisher('/dvrk/MTMR/set_torque_joint');
  g = 9.81;
  position = Get_Position(sub_pos);
  position_error = zeros(8,100);
