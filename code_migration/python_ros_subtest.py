@@ -18,7 +18,7 @@ def callback(data):
 	tup = data.position
 	rospy.loginfo(rospy.get_caller_id())
 	
-	# print(tup)
+	print(tup)
 	# print(tup[0])
 
 def pos_sub():

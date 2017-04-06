@@ -6,8 +6,7 @@ sub_tor = rossubscriber('/dvrk/MTML/joint_states');
  g = 9.81;
  position = Get_Position(sub_pos);
  position_error = zeros(8,100);
- torque_table = zeros(8,100);
-%  torque_table = zeros(7,100);
+ torque_table = zeros(7,100);
  effort_table = zeros(8,100);
  pos_table = zeros(7,100);
  loop = 0;
@@ -45,8 +44,7 @@ for i = 1:100
 
 
   Torques = Regressor_Matrix*dynamic_param;
-  Torques = [Torques(1);Torques(2);Torques(2);Torques(3);...
-      Torques(4);Torques(5);Torques(6);Torques(7)];
+  Torques = 
 %   Torques(5:7) = zeros(1, 3);
 %   Set_Torque(pub_tor, Torques);
   pause(0.01);
@@ -60,4 +58,4 @@ for i = 1:100
   display(loop)
 end
 
-% Plot_Errors(position_error);
+Plot_Errors(position_error);
