@@ -15,7 +15,9 @@ tup = None
 
 def callback(data):
 	global tup
+	global tor
 	tup = data.position
+	tor = data.effort
 	rospy.loginfo(rospy.get_caller_id())
 	
 	print(tup)
@@ -30,8 +32,9 @@ def pos_sub():
 if __name__ == '__main__':
 	pos_sub()
 
+effort = numpy.array([tor[0],tor[1],tor[2],tor[3],tor[4],tor[5],tor[6],tor[7]])
 q = numpy.array([tup[0],tup[1],tup[2],tup[3],tup[4],tup[5],tup[6]])
-print(q)
+# print(q)
 
 dh_table,cm,m = davinci_param(q)
 joint_config = numpy.array([1,1,1,1,1,1,1])

@@ -108,7 +108,7 @@ def newtonEuler(dh_table, dq,ddq, joint_config):
 			f_ip1 = f_i
 			n_ip1 = n_i
 					
-	t_i = numpy.array([t_i[0],t_i[1],t_i[1],t_i[2],t_i[3],t_i[4],t_i[5],t_i[6]])	
+	t_i = numpy.array([t_i[0],t_i[1],t_i[1],t_i[2],0,0,0,0])	
 	# t_i = tuple(t_i)
 	return t_i
 	

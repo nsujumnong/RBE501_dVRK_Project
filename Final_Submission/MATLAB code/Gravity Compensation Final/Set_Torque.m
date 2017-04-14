@@ -1,6 +1,6 @@
 function [Success] = Set_Torque(set_torque_msg,torque)
     msg = rosmessage(set_torque_msg);
-    msg.effort(1) = torque(1);
+    msg.Effort(1) = torque(1);
     msg.Effort(2) = torque(2);
     msg.Effort(3) = torque(3);
     msg.Effort(4) = torque(4);
