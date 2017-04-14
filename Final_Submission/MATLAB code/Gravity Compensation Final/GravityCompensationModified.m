@@ -1,7 +1,7 @@
 rosshutdown
 rosinit
-sub_pos = rossubscriber('/dvrk/MTML/joint_states');
-sub_tor = rossubscriber('/dvrk/MTML/joint_states');
+sub_pos = rossubscriber('/dvrk/MTML/state_joint_current');
+sub_tor = rossubscriber('/dvrk/MTML/state_joint_current');
 pub_tor = rospublisher('/dvrk/MTML/set_torque_joint');
  g = 9.81;
  r = rosrate(10);
