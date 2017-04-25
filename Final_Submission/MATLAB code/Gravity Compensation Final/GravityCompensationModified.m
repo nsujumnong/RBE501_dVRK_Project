@@ -1,8 +1,8 @@
 rosshutdown
 rosinit
-sub_pos = rossubscriber('/dvrk/MTML/state_joint_current');
-sub_tor = rossubscriber('/dvrk/MTML/state_joint_current');
-pub_tor = rospublisher('/dvrk/MTML/set_torque_joint');
+sub_pos = rossubscriber('/dvrk/MTMR/state_joint_current');
+sub_tor = rossubscriber('/dvrk/MTMR/state_joint_current');
+pub_tor = rospublisher('/dvrk/MTMR/set_torque_joint');
  g = 9.81;
  r = rosrate(10);
  position = Get_Position(sub_pos);
@@ -24,8 +24,10 @@ pub_tor = rospublisher('/dvrk/MTML/set_torque_joint');
                   -0.0003
                   -0.0001
                    0.0005];
+i = 0;
 
-for i = 1:100
+while i ~= 1
+% for i = 1:100
   qs = Get_Position(sub_pos);
   q1 = qs(1);
   q2 = qs(2);
@@ -46,30 +48,39 @@ for i = 1:100
 
 
   Torques = Regressor_Matrix*dynamic_param;
-  Torques = [Torques(1);Torques(2);Torques(2);Torques(3);...
-      Torques(4);Torques(5);Torques(6);Torques(7)];
+%   Torques = [Torques(1);Torques(2);Torques(3);...
+%       Torques(4);Torques(5);Torques(6);Torques(7)];
 %   Torques = [Torques(1);Torques(2);Torques(2);Torques(3);...
 %       Torques(4);0;0;0];
-  Torques(4:8) = zeros(1, 5);
+  Torques(5:7) = zeros(1, 3);
   Set_Torque(pub_tor, Torques);
 %   pause(0.01);
-  position_error(1:8,i) = Get_Position(sub_pos)-position;
+%   position_error(1:8,i) = Get_Position(sub_pos)-position;
   display('running')
-  torque_table(:,i)=Torques(:);
-  effort_table(:,i)=effort(:);
-  pos_table(:,i)=[q1;q2;q3;q4;q5;q6;q7];
-  compare_torque = [effort';Torques'];
+%   torque_table(:,i)=Torques(:);
+%   effort_table(:,i)=effort(:);
+%   pos_table(:,i)=[q1;q2;q3;q4;q5;q6;q7];
+%   compare_torque = [effort';Torques']
 %   display(effort)
   display(compare_torque)
   loop = loop+1;
   display(loop)
   time = r.TotalElapsedTime;
-  fprintf('Tme Elapsed: %d',time)
+  fprintf('Time Elapsed: %d',time)
   waitfor(r);
+% end
 end
 
-pause(7)
-%reset torque
+% w = waitforbuttonpress;
+% if w == 0
+%     disp('Reset torque')
+%     i = 1;
+% else
+%     disp('Press any key to reset torque')
+% end
+
+% pause(7)
+% %reset torque
 Torque_reset = [0;0;0;0;0;0;0;0];
 Set_Torque(pub_tor,Torque_reset);
 % Plot_Errors(position_error);
