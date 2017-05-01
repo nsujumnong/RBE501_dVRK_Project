@@ -1,6 +1,6 @@
 % Use this file to tune the parameters of a DaVinci Robot at the given ip
 % addess
-% This is a modification of Amed's parameter tuning code
+% This is a modification of Amaid Zia's parameter tuning code
 
 % ip = fill; %change to computer running dvrk
 max_error = 10e-3; %EDIT THIS
