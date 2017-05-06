@@ -7,10 +7,6 @@ pub_tor = rospublisher('/dvrk/MTMR/set_torque_joint');
  r = rosrate(150); % increase ros refresh rate to 150 Hz
  position = Get_Position(sub_pos);
 %  position_error = zeros(8,100);
-%  torque_table = zeros(8,100);
-%  torque_table = zeros(7,100);
-%  effort_table = zeros(8,100);
-%  pos_table = zeros(7,100);
  loop = 0;
   dynamic_param = [0.0414
                   -0.0192
