@@ -9,21 +9,46 @@ pub_tor = rospublisher('/dvrk/MTMR/set_torque_joint');
 %  position_error = zeros(8,100);
  loop = 0;
 
-%   dynamic_param = [0.0414
-%                   -0.0192
-%                    0.0328
-%                    0.0095
-%                   -0.0033
-%                   -0.0003
-%                   -0.0071
-%                   -0.0188
-%                   -0.0015
-%                   -0.0003
-%                   -0.0001
-%                    0.0005];
-i = 0;
+%   dynamic_param_grav = [0.0414
+%                       -0.0192
+%                        0.0328
+%                        0.0095
+%                       -0.0033
+%                       -0.0003
+%                       -0.0071
+%                       -0.0188
+%                       -0.0015
+%                       -0.0003
+%                       -0.0001
+%                        0.0005];
 
-while i ~= 1
+% dynamic_param_grav =    [ 0.0423
+%                     -0.0195
+%                      0.0305
+%                      0.0082
+%                     -0.0041
+%                     -0.0021
+%                     -0.0032
+%                     -0.0189
+%                     -0.0021
+%                      0.0001
+%                     -0.0000
+%                     -0.0005];
+
+dynamic_param_grav = [0.0155
+                       -0.0381
+                        0.0068
+                       -0.0005
+                       -0.0011
+                       -0.0001
+                        0.0382
+                        0.0039
+                        0.0004
+                       -0.0003
+                       -0.0003
+                       -0.0011];
+
+while 1
 % for i = 1:100
   qs = Get_Position(sub_pos);
   q1 = qs(1);
@@ -45,38 +70,40 @@ while i ~= 1
                                            0,          0,                                     0,                                     0,                                                                                                                             0,                                                                                                                                                                                                                                     0,                                                     0,                                                     0,                                                                                                                             0,                                                                                                                                                                                                                                     0,                                                                                                                                                                                                                                                                                                                                                                                                                                                     0,                                                                                                                                                                                                                                                                                                                                                                                                                                                    0]; %g*(cos(q5)*cos(q7)*sin(q2)*sin(q3) - cos(q2)*cos(q3)*cos(q5)*cos(q7) + cos(q2)*cos(q4)*cos(q7)*sin(q3)*sin(q5) + cos(q3)*cos(q4)*cos(q7)*sin(q2)*sin(q5) + cos(q2)*cos(q6)*sin(q3)*sin(q4)*sin(q7) + cos(q3)*cos(q6)*sin(q2)*sin(q4)*sin(q7) + cos(q2)*cos(q3)*sin(q5)*sin(q6)*sin(q7) - sin(q2)*sin(q3)*sin(q5)*sin(q6)*sin(q7) + cos(q2)*cos(q4)*cos(q5)*sin(q3)*sin(q6)*sin(q7) + cos(q3)*cos(q4)*cos(q5)*sin(q2)*sin(q6)*sin(q7)),                -g*(cos(q2)*cos(q3)*cos(q5)*sin(q7) - cos(q5)*sin(q2)*sin(q3)*sin(q7) + cos(q2)*cos(q6)*cos(q7)*sin(q3)*sin(q4) + cos(q3)*cos(q6)*cos(q7)*sin(q2)*sin(q4) + cos(q2)*cos(q3)*cos(q7)*sin(q5)*sin(q6) - cos(q2)*cos(q4)*sin(q3)*sin(q5)*sin(q7) - cos(q3)*cos(q4)*sin(q2)*sin(q5)*sin(q7) - cos(q7)*sin(q2)*sin(q3)*sin(q5)*sin(q6) + cos(q2)*cos(q4)*cos(q5)*cos(q7)*sin(q3)*sin(q6) + cos(q3)*cos(q4)*cos(q5)*cos(q7)*sin(q2)*sin(q6))];
 
 
-  Torques = Regressor_Matrix*dynamic_param;
+  Torques = Regressor_Matrix*dynamic_param_grav;
 %   Torques = [Torques(1);Torques(2);Torques(3);...
 %       Torques(4);Torques(5);Torques(6);Torques(7)];
 %   Torques = [Torques(1);Torques(2);Torques(2);Torques(3);...
 %       Torques(4);0;0;0];
-  Torques(6:7) = zeros(1, 2);
+  Torques(5:7) = zeros(1, 3);
   Set_Torque(pub_tor, Torques);
 %   pause(0.01);
 %   position_error(1:8,i) = Get_Position(sub_pos)-position;
-  display('running')
+%   display('running')
 %   torque_table(:,i)=Torques(:);
 %   effort_table(:,i)=effort(:);
 %   pos_table(:,i)=[q1;q2;q3;q4;q5;q6;q7];
-  compare_torque = [effort';Torques']
+  compare_torque = [effort';Torques'];
   loop = loop+1;
-  display(loop)
+%   display(loop)
   time = r.TotalElapsedTime;
   fprintf('Time Elapsed: %d',time)
   waitfor(r);
+  
 % end
 end
 
 % w = waitforbuttonpress;
-% if w == 0
-%     disp('Reset torque')
-%     i = 1;
-% else
-%     disp('Press any key to reset torque')
-% end
+%     if w == 0
+%         disp('Reset torque')
+%         i = 1;
+%     else
+%         disp('Press any key to reset torque')
+%     end
 
 % pause(7)
 % %reset torque
 Torque_reset = [0;0;0;0;0;0;0;0];
 Set_Torque(pub_tor,Torque_reset);
+rosshutdown
 % Plot_Errors(position_error);

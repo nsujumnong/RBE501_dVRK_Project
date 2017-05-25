@@ -17,13 +17,31 @@ function [torque_data,actual_position] = decoupledDataCollection()
     % set and record the torque data at different configurations
     % Each time the data collection of one joint is done, the robot is 
     % reset to the home pose and then move on to the next joint
-    for i = 2:3
+    for i = 2
         sum_mean_torque = zeros(8,50);
-        q = [0,0,0,0,0,0,0];
+        q = [0,-0.20,0,0,0,0,0];
         Set_Position(pub_pos,q); 
         pause(3)
         for j = 1:10
-            q(i) = q(i)+0.03;
+            q(i) = q(i)+0.045;
+            Set_Position(pub_pos,q);
+            pause(2)
+            for k = 1:50
+                msg = receive(sub_tor);
+                sum_mean_torque(:,k) = msg.Effort;                
+            end
+            torque_data(:,j,i-1) = mean(sum_mean_torque,2);
+            actual_position(:,j,i-1) = Get_Position(sub_pos);
+        end                 
+    end
+    
+    for i = 3
+        sum_mean_torque = zeros(8,50);
+        q = [0,0,-0.5,0,0,0,0];
+        Set_Position(pub_pos,q); 
+        pause(3)
+        for j = 1:10
+            q(i) = q(i)+0.075;
             Set_Position(pub_pos,q);
             pause(2)
             for k = 1:50
@@ -37,11 +55,11 @@ function [torque_data,actual_position] = decoupledDataCollection()
     
     for i = 4
         sum_mean_torque = zeros(8,50);
-        q = [0,0,0,0,0,0,0];
+        q = [0,0,0,-1,0,0,0];
         Set_Position(pub_pos,q); 
         pause(3)
         for j = 1:10
-            q(i) = q(i)-0.1;
+            q(i) = q(i)+0.4;
             Set_Position(pub_pos,q);
             pause(2)
             for k = 1:50
@@ -56,11 +74,11 @@ function [torque_data,actual_position] = decoupledDataCollection()
     
     for i = 5
         sum_mean_torque = zeros(8,50);
-        q = [0,0,0,0,0,0,0];
+        q = [0,0,0,0,-1.2,0,0];
         Set_Position(pub_pos,q); 
         pause(3)
         for j = 1:10
-            q(i) = q(i)+0.12;
+            q(i) = q(i)+0.4;
             Set_Position(pub_pos,q);
             pause(2)
             for k = 1:50
