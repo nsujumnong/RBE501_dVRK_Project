@@ -17,7 +17,7 @@ function [torquePos,jointPos] = torqueDataCollect()
     for i=4 
         for j = 1:10
             torqueEach = zeros(8,100);
-            q(i)=q(i)-0.1;
+            q(i)=q(i)-0.14;
             Set_Position(pub_pos,q);
             pause(3)
             for k = 1:100
@@ -73,6 +73,7 @@ function [torquePos,jointPos] = torqueDataCollect()
             jointPos(:,j,i-1) = Get_Position(sub_pos);
         end
     end
+    
 %     for j = 1:10
 %         torqueEach = zeros(8,100);
 %         q(2)=q(2)+0.04;

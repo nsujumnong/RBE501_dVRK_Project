@@ -8,12 +8,12 @@ g= 9.81;
 % q7 = actual_position(7,10,4); 
 % q8 = actual_position(8,10,4);
 
-q1 = 0.0022;
-q2 = 0.3765;
-q3 = -0.2629;
-q4 = -0.9955;
-q5 = 0.9918;
-q6 = -0.0059;
+q1 = 0.0025;
+q2 = 0.0059;
+q3 = -0.2356;
+q4 = -0.9954;
+q5 = 1.0155;
+q6 = -0.0237;
 q7 = 0;
 
   Regressor_Matrix =             [         0,          0,                                     0,                                     0,                                                                                                                             0,                                                                                                                                                                                                                                     0,                                                     0,                                                     0,                                                                                                                             0,                                                                                                                                                                                                                                     0,                                                                                                                                                                                                                                                                                                                                                                                                                                                     0,                                                                                                                                                                                                                                                                                                                                                                                                                                                     0
@@ -92,5 +92,15 @@ torque_compare(:,2) = Regressor_Matrix*dynamic_param_ham;
 torque_compare(:,3) = Regressor_Matrix*dynamic_param_ham1;
 torque_compare(:,4) = Regressor_Matrix*dynamic_param_ham2;
 torque_compare(:,5) = Regressor_Matrix*dynamic_param_ham3;
+
+torque_diff(:,1) = abs(torque_compare(:,1)-torque_compare(:,2));
+torque_diff(:,2) = abs(torque_compare(:,1)-torque_compare(:,3));
+torque_diff(:,3) = abs(torque_compare(:,1)-torque_compare(:,4));
+torque_diff(:,4) = abs(torque_compare(:,1)-torque_compare(:,5));
+
+dynParam_diff(:,1) = abs(dynamic_param_1-dynamic_param_ham);
+dynParam_diff(:,2) = abs(dynamic_param_1-dynamic_param_ham1);
+dynParam_diff(:,3) = abs(dynamic_param_1-dynamic_param_ham2);
+dynParam_diff(:,4) = abs(dynamic_param_1-dynamic_param_ham3);
 
                
