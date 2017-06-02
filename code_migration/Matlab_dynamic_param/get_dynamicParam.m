@@ -1,5 +1,4 @@
 function dynamicParameter = get_dynamicParam(joint_position,torque)
-    format long
 
     regressorTotal = Get_Regressor(joint_position);
 
